@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16BA4D052754234500B6A5B7 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BA4D042754234500B6A5B7 /* SpeechRecognizer.swift */; };
 		16D5A98727541522003B2886 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D5A98627541522003B2886 /* AppDelegate.swift */; };
 		16D5A98927541522003B2886 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D5A98827541522003B2886 /* SceneDelegate.swift */; };
 		16D5A98B27541522003B2886 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D5A98A27541522003B2886 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16BA4D042754234500B6A5B7 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		16D5A98327541522003B2886 /* VoiceSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16D5A98627541522003B2886 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16D5A98827541522003B2886 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				16D5A99427541524003B2886 /* LaunchScreen.storyboard */,
 				16D5A99727541524003B2886 /* Info.plist */,
 				16D5A98F27541522003B2886 /* VoiceSearch.xcdatamodeld */,
+				16BA4D042754234500B6A5B7 /* SpeechRecognizer.swift */,
 			);
 			path = VoiceSearch;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16BA4D052754234500B6A5B7 /* SpeechRecognizer.swift in Sources */,
 				16D5A99127541522003B2886 /* VoiceSearch.xcdatamodeld in Sources */,
 				16D5A98B27541522003B2886 /* ViewController.swift in Sources */,
 				16D5A98727541522003B2886 /* AppDelegate.swift in Sources */,

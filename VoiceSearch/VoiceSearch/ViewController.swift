@@ -10,11 +10,11 @@ import AVFoundation
 import Speech
 
 class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        SpeechRecogniser().authorise { success in
+            print("success == \(success)")
+        }
     }
-
-
 }
 
