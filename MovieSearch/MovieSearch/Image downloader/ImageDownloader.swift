@@ -16,23 +16,14 @@ class ImgeDownloader {
     private var maxCuncurent = 0
     let operationQueue = OperationQueue()
     
+    private var localCaches: [String: UIImage] = [:]
+    
     enum FileLocation {
         case documentDirectory
         case tempDirectory
         case cacheDirectory
     }
     
-    private var folderPath: URL? {
-        switch self.fileLocation {
-            case .cacheDirectory:
-                return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(folder)
-            case .documentDirectory:
-                return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(folder)
-                
-            case .tempDirectory:
-                return nil
-        }
-    }
     
     private var fileLocation: FileLocation = .documentDirectory
     
@@ -48,12 +39,7 @@ class ImgeDownloader {
         }
     }
     
-    func download(fileLocation: FileLocation = .documentDirectory,
-                  url: URL, completion: ((DownloadOperation) -> Void)?) {
-        DispatchQueue.global().async(flags: .barrier) {
-            //self.fileLocation = fileLocation
-        }
-        self.fileLocation = fileLocation
+    func download(url: URL, completion: ((DownloadOperation) -> Void)?) {
         // Return if operation is already in progress
         if let downloadOperation = operationMapping[url.absoluteString], downloadOperation.isExecuting {
             completion?(downloadOperation)
@@ -68,33 +54,23 @@ class ImgeDownloader {
         }
         
         // Check if image is saved in directory
-        if let directoryPath = self.folderPath,
-           FileManager.default.fileExists(atPath: directoryPath.relativePath + "/" + url.lastPathComponent) {
-            let fileURL = URL(fileURLWithPath: directoryPath.relativePath + "/" + url.lastPathComponent)
+        if let image = localCaches[url.absoluteString] {
             let operation = DownloadOperation(url: url)
-            operation.data = try? Data(contentsOf: fileURL)
-            print("file already cached at path === \(fileURL)")
+            operation.data = image.pngData()
             operation.state = .cached
             completion?(operation)
             return
         }
-        
-        if maxCuncurent > 10 {
-            return
-        }
-       maxCuncurent += 1
-        print("loading started")
+    
+       print("loading started")
        let operation = DownloadOperation(url: url)
         operation.completion = { _ in
             self.maxCuncurent -= 1
-            if let directoryPath = self.folderPath, !FileManager.default.fileExists(atPath: directoryPath.relativePath, isDirectory: nil) {
-                try? FileManager.default.createDirectory(at: directoryPath, withIntermediateDirectories: true, attributes: nil)
-                print("file created")
+            if let data = operation.data {
+                let image = UIImage.init(data: data)
+                self.localCaches[url.absoluteString] = image
             }
-            if let directoryPath = self.folderPath {
-                let fileURL = URL(fileURLWithPath: directoryPath.relativePath + "/" + url.lastPathComponent)
-                try? operation.data?.write(to: fileURL)
-            }
+
             operation.state = .finished
             
             completion?(operation)

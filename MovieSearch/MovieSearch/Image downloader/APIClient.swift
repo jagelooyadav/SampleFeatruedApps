@@ -19,7 +19,13 @@ class APIClient: APIClientProtocol {
     
     func call<R: Encodable, T: Decodable>(request: R, completion: ((Result<T, Error>) -> Void)?) {
         let requestData = try? JSONEncoder().encode(request)
-        guard let url = URL(string: self.networkConfig.urlString) else {
+        let urlString: String
+        if self.networkConfig.isQuery, let request = request as? String {
+            urlString = self.networkConfig.urlString + "&\(request)"
+        } else {
+            urlString = self.networkConfig.urlString
+        }
+        guard let url = URL(string: urlString) else {
             completion?(.failure(APIError.invalidResponse))
             return
         }
@@ -28,23 +34,7 @@ class APIClient: APIClientProtocol {
         if networkConfig.method == "POST" {
             urlRequest.httpBody = requestData
         }
-        
-        /// basi setup
-        urlRequest.addValue(ContentType.applicationJson,
-                         forHTTPHeaderField: HTTPHeaderField.contentType)
-        urlRequest.addValue("dev", forHTTPHeaderField: "username")
-        urlRequest.addValue("giz", forHTTPHeaderField: "password")//AuthType
-        urlRequest.addValue("Basic", forHTTPHeaderField: "AuthType")
-        
-        let username = "dev"
-        let password = "giz"
-        let loginString = String(format: "%@:%@", username, password)
-        let loginData = loginString.data(using: String.Encoding.utf8)!
-        let base64LoginString = loginData.base64EncodedString()
-        
-        urlRequest.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
-        //
-        
+    
         URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             guard let httpsResponse = response as? HTTPURLResponse,
                   httpsResponse.statusCode == 200,
@@ -67,22 +57,28 @@ protocol NetworkConfigProtocol {
     var baseURL: String { get }
     var path: String? { get }
     var method: String { get }
+    var isQuery: Bool { get set }
+    var apiKey: String { get }
 }
 
 extension NetworkConfigProtocol {
     var urlString: String {
-        return baseURL + (path ?? "")
+        return baseURL + ((path ?? "") + "?api_key=\(self.apiKey)")
     }
 }
 
 struct NetworkConfig: NetworkConfigProtocol {
-    var baseURL: String = "https://new.gizmogul.com/api/v1"
+    
+    let apiKey = "2a61185ef6a27f400fd92820ad9e8537"
+    var isQuery = true
+    var baseURL: String = "https://api.themoviedb.org/3"
     var path: String?
     var method: String = "GET"
     
-    init(path: String, method: String = "GET") {
+    init(path: String, method: String = "GET", isQuery: Bool = true) {
         self.path = path
         self.method = method
+        self.isQuery = isQuery
     }
 }
 

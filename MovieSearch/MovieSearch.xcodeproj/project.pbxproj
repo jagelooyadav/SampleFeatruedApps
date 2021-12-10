@@ -24,6 +24,7 @@
 		16AA9F4F27632C43008A4E02 /* RestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F4E27632C43008A4E02 /* RestAPI.swift */; };
 		16AA9F5127632C8A008A4E02 /* SearchAPIInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5027632C8A008A4E02 /* SearchAPIInteractor.swift */; };
 		16AA9F5327632CFB008A4E02 /* MovieListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5227632CFB008A4E02 /* MovieListPresenter.swift */; };
+		16AA9F562763304F008A4E02 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F552763304F008A4E02 /* MovieCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		16AA9F4E27632C43008A4E02 /* RestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPI.swift; sourceTree = "<group>"; };
 		16AA9F5027632C8A008A4E02 /* SearchAPIInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPIInteractor.swift; sourceTree = "<group>"; };
 		16AA9F5227632CFB008A4E02 /* MovieListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListPresenter.swift; sourceTree = "<group>"; };
+		16AA9F552763304F008A4E02 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 		16AA9F1127632A58008A4E02 /* MovieSearch */ = {
 			isa = PBXGroup;
 			children = (
+				16AA9F542763303D008A4E02 /* View */,
 				16AA9F4527632ABC008A4E02 /* Image downloader */,
 				16AA9F1227632A58008A4E02 /* AppDelegate.swift */,
 				16AA9F1427632A58008A4E02 /* SceneDelegate.swift */,
@@ -157,6 +160,14 @@
 				16AA9F4827632AD8008A4E02 /* ImageDownloader.swift */,
 			);
 			path = "Image downloader";
+			sourceTree = "<group>";
+		};
+		16AA9F542763303D008A4E02 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				16AA9F552763304F008A4E02 /* MovieCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,6 +303,7 @@
 			files = (
 				16AA9F4927632AD8008A4E02 /* DownloadOperation.swift in Sources */,
 				16AA9F5127632C8A008A4E02 /* SearchAPIInteractor.swift in Sources */,
+				16AA9F562763304F008A4E02 /* MovieCell.swift in Sources */,
 				16AA9F4A27632AD8008A4E02 /* AppOperation.swift in Sources */,
 				16AA9F4B27632AD8008A4E02 /* ImageDownloader.swift in Sources */,
 				16AA9F4F27632C43008A4E02 /* RestAPI.swift in Sources */,

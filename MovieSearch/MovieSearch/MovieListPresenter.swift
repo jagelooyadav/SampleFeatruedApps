@@ -7,6 +7,18 @@
 
 import Foundation
 
+protocol MovieListPresenterProtocol {
+    func showMovieList()
+}
+
 class MovieListPresenter {
-    
+    var view: MovieListPresenterProtocol?
+}
+
+extension MovieListPresenter: SearchAPIInteractorOutPut {
+    func showMovies() {
+        DispatchQueue.main.async {
+            self.view?.showMovieList()
+        }
+    }
 }
