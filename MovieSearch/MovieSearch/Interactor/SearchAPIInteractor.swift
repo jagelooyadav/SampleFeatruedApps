@@ -11,6 +11,10 @@ protocol SearchAPIInteractorOutPut: AnyObject {
     func showMovies()
 }
 
+protocol SearchAPIInteractorInput {
+    func fetchData(query: String) async
+}
+
 class SearchAPIInteractor {
     var presenter: SearchAPIInteractorOutPut?
     var apiClient: APIClientProtocol?
@@ -22,46 +26,25 @@ class SearchAPIInteractor {
         let config = NetworkConfig(path: "/search/movie")
         self.apiClient = APIClient(networkConfig: config)
     }
-    
-    func fetchData(query: String) {
+}
+
+extension SearchAPIInteractor: SearchAPIInteractorInput {
+    func fetchData(query: String) async {
         guard !isInprogress else { return }
         isInprogress = true
         typealias SResult = Result<SearchResult, Error>
-        self.apiClient?.call(request: query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), completion: { (result: SResult) in
-            self.isInprogress = false
-            switch result {
-                case .success(let data):
-                    self.parse(resutls: data.results)
-                case .failure(let error):
-                    print(error)
-                    break
-            }
-        })
-    }
-    
-    func parse(resutls: [SearchResult.Result]) {
-        self.movieData = resutls
-        self.presenter?.showMovies()
-    }
-}
-
-struct SearchResult: Decodable {
-    let page: Int
-    let results: [Result]
-    
-    struct Result: Decodable, MovieData {
-        let title: String?
-        let overview: String?
-        let posterPath: String?
-        
-        enum CodingKeys: String, CodingKey {
-            case title
-            case overview
-            case posterPath = "poster_path"
+        let result: SResult? = try? await apiClient?.call(request: query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed))
+        self.isInprogress = false
+        guard let searchResult = result else {
+            return
         }
-        
-        var completeURLString: String {
-            return "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + (posterPath ?? "")
+        switch searchResult {
+            case .success(let data):
+                self.movieData = data.results
+                self.presenter?.showMovies()
+            case .failure(let error):
+                print(error)
+                break
         }
     }
 }

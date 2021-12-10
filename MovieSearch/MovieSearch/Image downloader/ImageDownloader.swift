@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+actor DataCaching {
+    var localCaches: [String: UIImage] = [:]
+    var operationMapping: [String: DownloadOperation] = [:]
+}
+
 class ImgeDownloader {
     static let shared = ImgeDownloader()
     private var operationMapping: [String: DownloadOperation] = [:]
@@ -17,6 +22,7 @@ class ImgeDownloader {
     let operationQueue = OperationQueue()
     
     private var localCaches: [String: UIImage] = [:]
+    private var actor = DataCaching()
     
     enum FileLocation {
         case documentDirectory
@@ -41,21 +47,20 @@ class ImgeDownloader {
     
     func download(url: URL, completion: ((DownloadOperation) -> Void)?) {
         // Return if operation is already in progress
-        if let downloadOperation = operationMapping[url.absoluteString], downloadOperation.isExecuting {
-            completion?(downloadOperation)
-            return
-        }
-        
-        //Check if data is stored in operation object
-        if let downloadOperation = operationMapping[url.absoluteString], downloadOperation.data != nil {
-            downloadOperation.state = .downloaded
-            completion?(downloadOperation)
-            return
-        }
-        
-        // Check if image is saved in directory
-        DispatchQueue.main.async(flags: .barrier) {
-            if let image = self.localCaches[url.absoluteString] {
+        Task {
+            if let downloadOperation = await self.actor.operationMapping[url.absoluteString], downloadOperation.isExecuting {
+                completion?(downloadOperation)
+                return
+            }
+            
+            //Check if data is stored in operation object
+            if let downloadOperation = await self.actor.operationMapping[url.absoluteString], downloadOperation.data != nil {
+                downloadOperation.state = .downloaded
+                completion?(downloadOperation)
+                return
+            }
+            
+            if let image = await self.actor.localCaches[url.absoluteString] {
                 let operation = DownloadOperation(url: url)
                 operation.data = image.pngData()
                 operation.state = .cached
@@ -63,11 +68,9 @@ class ImgeDownloader {
                 return
             }
         }
-    
        print("loading started")
        let operation = DownloadOperation(url: url)
         operation.completion = { _ in
-            self.maxCuncurent -= 1
             if let data = operation.data {
                 let image = UIImage.init(data: data)
                 
@@ -84,8 +87,9 @@ class ImgeDownloader {
     }
     
     func clearCache() {
-        DispatchQueue.global().async(flags: .barrier) {
-            self.operationMapping.removeAll()
+        Task {
+            var mapping = await self.actor.operationMapping
+            mapping.removeAll()
         }
     }
 }

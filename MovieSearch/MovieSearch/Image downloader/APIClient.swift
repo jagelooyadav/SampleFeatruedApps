@@ -8,16 +8,19 @@
 import Foundation
 
 protocol APIClientProtocol {
-    func call<R: Encodable, T: Decodable>(request: R, completion: ((Result<T, Error>) -> Void)?)
+    func call<R: Encodable, T: Decodable>(request: R) async throws -> Result<T, Error>
 }
 
-class APIClient: APIClientProtocol {
+class APIClient {
     private let networkConfig: NetworkConfigProtocol
+    
     init(networkConfig: NetworkConfigProtocol = NetworkConfig(path: "", method: "")) {
         self.networkConfig = networkConfig
     }
-    
-    func call<R: Encodable, T: Decodable>(request: R, completion: ((Result<T, Error>) -> Void)?) {
+}
+
+extension APIClient: APIClientProtocol {
+    func call<R: Encodable, T: Decodable>(request: R) async throws -> Result<T, Error> {
         let requestData = try? JSONEncoder().encode(request)
         let urlString: String
         if self.networkConfig.isQuery, let request = request as? String {
@@ -26,30 +29,30 @@ class APIClient: APIClientProtocol {
             urlString = self.networkConfig.urlString
         }
         guard let url = URL(string: urlString) else {
-            completion?(.failure(APIError.invalidResponse))
-            return
+            return .failure(APIError.invalidResponse)
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = networkConfig.method
         if networkConfig.method == "POST" {
             urlRequest.httpBody = requestData
         }
-    
-        URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
-            guard let httpsResponse = response as? HTTPURLResponse,
-                  httpsResponse.statusCode == 200,
-                  let data = data else {
-                completion?(.failure(APIError.notReachable))
-                return
-            }
-            
-            guard let model = try? JSONDecoder().decode(T.self, from: data) else {
-                completion?(.failure(APIError.notReachable))
-                return
-            }
-            completion?(.success(model))
-            
-        }).resume()
+        
+        return try await withCheckedThrowingContinuation({ continuation in
+            URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+                guard let httpsResponse = response as? HTTPURLResponse,
+                      httpsResponse.statusCode == 200,
+                      let data = data else {
+                          return continuation.resume(with: .failure(APIError.notReachable))
+                      }
+                
+                guard let model = try? JSONDecoder().decode(T.self, from: data) else {
+                    continuation.resume(returning: .failure(APIError.notReachable))
+                    return
+                }
+                continuation.resume(returning: .success(model))
+                
+            }).resume()
+        })
     }
 }
 

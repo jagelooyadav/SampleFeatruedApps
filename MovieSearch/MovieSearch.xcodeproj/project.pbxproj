@@ -25,6 +25,7 @@
 		16AA9F5327632CFB008A4E02 /* MovieListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5227632CFB008A4E02 /* MovieListPresenter.swift */; };
 		16AA9F562763304F008A4E02 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F552763304F008A4E02 /* MovieCell.swift */; };
 		16AA9F5A27635688008A4E02 /* SearchAPIInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5927635688008A4E02 /* SearchAPIInteractorTests.swift */; };
+		16AA9F5C2763DAB8008A4E02 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5B2763DAB7008A4E02 /* SearchResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		16AA9F5227632CFB008A4E02 /* MovieListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListPresenter.swift; sourceTree = "<group>"; };
 		16AA9F552763304F008A4E02 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		16AA9F5927635688008A4E02 /* SearchAPIInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPIInteractorTests.swift; sourceTree = "<group>"; };
+		16AA9F5B2763DAB7008A4E02 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				16AA9F5027632C8A008A4E02 /* SearchAPIInteractor.swift */,
+				16AA9F5B2763DAB7008A4E02 /* SearchResult.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				16AA9F1327632A58008A4E02 /* AppDelegate.swift in Sources */,
 				16AA9F1D27632A58008A4E02 /* MovieSearch.xcdatamodeld in Sources */,
 				16AA9F5327632CFB008A4E02 /* MovieListPresenter.swift in Sources */,
+				16AA9F5C2763DAB8008A4E02 /* SearchResult.swift in Sources */,
 				16AA9F1527632A58008A4E02 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -68,9 +68,11 @@ extension ViewController: MovieListPresenterProtocol {
 
 extension ViewController: UISearchBarDelegate {
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.count > 1 else { return }
-        self.apiInteractor.fetchData(query: "query=\(searchBar.text ?? "")")
+        Task {
+            await self.apiInteractor.fetchData(query: "query=\(searchBar.text ?? "")")
+        }
     }
 
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -79,8 +81,10 @@ extension ViewController: UISearchBarDelegate {
 
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.apiInteractor.fetchData(query: "query=\(searchBar.text ?? "")")
         self.searchBar.resignFirstResponder()
+        Task {
+            await self.apiInteractor.fetchData(query: "query=\(searchBar.text ?? "")")
+        }
     }
  
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
