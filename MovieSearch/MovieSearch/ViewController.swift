@@ -15,10 +15,20 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.addSearchicon()
+        self.title = "Movies"
         let presenter = MovieListPresenter()
         presenter.view = self
         self.apiInteractor.presenter = presenter
         self.apiInteractor.fetchData(query: "query=Harry Potter")
+    }
+    
+    private func addSearchicon() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .search, target: self, action: #selector(search))
+    }
+    
+    @objc func search() {
+        
     }
 }
 
