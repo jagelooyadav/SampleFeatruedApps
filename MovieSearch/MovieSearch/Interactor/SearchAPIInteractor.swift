@@ -13,7 +13,7 @@ protocol SearchAPIInteractorOutPut: AnyObject {
 
 class SearchAPIInteractor {
     var presenter: SearchAPIInteractorOutPut?
-    var apiClient: APIClient?
+    var apiClient: APIClientProtocol?
     var movieData: [MovieData] = []
     
     var isInprogress: Bool = false

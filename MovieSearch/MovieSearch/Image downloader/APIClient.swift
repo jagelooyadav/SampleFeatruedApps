@@ -95,3 +95,33 @@ enum APIError: Error {
         }
     }
 }
+
+
+public enum HTTPMethodType : String {
+    
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case delete = "DELETE"
+    
+    public init(type :String?) {
+        
+        if let type = type {
+        
+            self = HTTPMethodType(rawValue: type) ?? .get
+        } else {
+            self = .get
+        }
+        
+    }
+}
+
+public enum HTTPHeaderField {
+    
+    static let contentType = "Content-Type"
+}
+
+public enum ContentType {
+    
+    static let applicationJson = "application/json"
+}

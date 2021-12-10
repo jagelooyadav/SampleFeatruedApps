@@ -67,23 +67,6 @@ extension ViewController: MovieListPresenterProtocol {
 }
 
 extension ViewController: UISearchBarDelegate {
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        return true
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        
-    }
-
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        return false
-    }
-
-
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        
-    }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         guard searchText.count > 1 else { return }
