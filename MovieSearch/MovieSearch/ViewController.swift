@@ -20,15 +20,20 @@ class ViewController: UIViewController {
         let presenter = MovieListPresenter()
         presenter.view = self
         self.apiInteractor.presenter = presenter
-        self.apiInteractor.fetchData(query: "query=Harry Potter")
     }
     
     private func addSearchicon() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .search, target: self, action: #selector(search))
     }
     
+    lazy var searchBar = UISearchBar(frame: .zero)
+    
     @objc func search() {
-        
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.titleView = searchBar
+        searchBar.placeholder = "Search"
+        searchBar.showsCancelButton = true
+        self.searchBar.delegate = self
     }
 }
 
@@ -58,6 +63,47 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: MovieListPresenterProtocol {
     func showMovieList() {
         self.tableView.reloadData()
+    }
+}
+
+extension ViewController: UISearchBarDelegate {
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        return true
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
+    }
+
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        return false
+    }
+
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        guard searchText.count > 1 else { return }
+        self.apiInteractor.fetchData(query: "query=\(searchBar.text ?? "")")
+    }
+
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return true
+    }
+
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.apiInteractor.fetchData(query: "query=\(searchBar.text ?? "")")
+        self.searchBar.resignFirstResponder()
+    }
+ 
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.navigationItem.titleView = nil
+        self.searchBar.resignFirstResponder()
+        self.addSearchicon()
     }
 }
 

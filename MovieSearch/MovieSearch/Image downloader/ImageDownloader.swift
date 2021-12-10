@@ -54,12 +54,14 @@ class ImgeDownloader {
         }
         
         // Check if image is saved in directory
-        if let image = localCaches[url.absoluteString] {
-            let operation = DownloadOperation(url: url)
-            operation.data = image.pngData()
-            operation.state = .cached
-            completion?(operation)
-            return
+        DispatchQueue.main.async(flags: .barrier) {
+            if let image = self.localCaches[url.absoluteString] {
+                let operation = DownloadOperation(url: url)
+                operation.data = image.pngData()
+                operation.state = .cached
+                completion?(operation)
+                return
+            }
         }
     
        print("loading started")
@@ -68,7 +70,10 @@ class ImgeDownloader {
             self.maxCuncurent -= 1
             if let data = operation.data {
                 let image = UIImage.init(data: data)
-                self.localCaches[url.absoluteString] = image
+                
+                DispatchQueue.main.async(flags: .barrier) {
+                    self.localCaches[url.absoluteString] = image
+                }
             }
 
             operation.state = .finished

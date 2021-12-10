@@ -16,14 +16,19 @@ class SearchAPIInteractor {
     var apiClient: APIClient?
     var movieData: [MovieData] = []
     
+    var isInprogress: Bool = false
+    
     init() {
         let config = NetworkConfig(path: "/search/movie")
         self.apiClient = APIClient(networkConfig: config)
     }
     
     func fetchData(query: String) {
+        guard !isInprogress else { return }
+        isInprogress = true
         typealias SResult = Result<SearchResult, Error>
         self.apiClient?.call(request: query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), completion: { (result: SResult) in
+            self.isInprogress = false
             switch result {
                 case .success(let data):
                     self.parse(resutls: data.results)
