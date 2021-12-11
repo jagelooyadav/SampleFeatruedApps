@@ -25,14 +25,16 @@ class AppOperation: Operation {
             return _state
         }
         set {
-            let oldValue = _state
-            willChangeValue(forKey: oldValue.rawValue)
-            didChangeValue(forKey: newValue.rawValue)
-            
-            _state = newValue
-            
-            willChangeValue(forKey: newValue.rawValue)
-            didChangeValue(forKey: oldValue.rawValue)
+            DispatchQueue.global().async(flags: .barrier) {
+                let oldValue = self._state
+                self.willChangeValue(forKey: oldValue.rawValue)
+                self.didChangeValue(forKey: newValue.rawValue)
+                
+                self._state = newValue
+                
+                self.willChangeValue(forKey: newValue.rawValue)
+                self.didChangeValue(forKey: oldValue.rawValue)
+            }
         }
     }
     
