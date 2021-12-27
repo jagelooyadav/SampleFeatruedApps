@@ -26,6 +26,8 @@
 		16AA9F562763304F008A4E02 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F552763304F008A4E02 /* MovieCell.swift */; };
 		16AA9F5A27635688008A4E02 /* SearchAPIInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5927635688008A4E02 /* SearchAPIInteractorTests.swift */; };
 		16AA9F5C2763DAB8008A4E02 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA9F5B2763DAB7008A4E02 /* SearchResult.swift */; };
+		16B68D062779C21E0097CE5E /* MovieSearchStub.json in Resources */ = {isa = PBXBuildFile; fileRef = 16B68D052779C21E0097CE5E /* MovieSearchStub.json */; };
+		16B68D082779C3180097CE5E /* StubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B68D072779C3180097CE5E /* StubClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,8 @@
 		16AA9F552763304F008A4E02 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		16AA9F5927635688008A4E02 /* SearchAPIInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPIInteractorTests.swift; sourceTree = "<group>"; };
 		16AA9F5B2763DAB7008A4E02 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		16B68D052779C21E0097CE5E /* MovieSearchStub.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MovieSearchStub.json; sourceTree = "<group>"; };
+		16B68D072779C3180097CE5E /* StubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,7 @@
 				16AA9F2027632A59008A4E02 /* LaunchScreen.storyboard */,
 				16AA9F2327632A59008A4E02 /* Info.plist */,
 				16AA9F1B27632A58008A4E02 /* MovieSearch.xcdatamodeld */,
+				16B68D052779C21E0097CE5E /* MovieSearchStub.json */,
 			);
 			path = MovieSearch;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				16AA9F4727632AD8008A4E02 /* AppOperation.swift */,
 				16AA9F4627632AD8008A4E02 /* DownloadOperation.swift */,
 				16AA9F4827632AD8008A4E02 /* ImageDownloader.swift */,
+				16B68D072779C3180097CE5E /* StubClient.swift */,
 			);
 			path = "Image downloader";
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 				16AA9F2227632A59008A4E02 /* LaunchScreen.storyboard in Resources */,
 				16AA9F1F27632A59008A4E02 /* Assets.xcassets in Resources */,
 				16AA9F1A27632A58008A4E02 /* Main.storyboard in Resources */,
+				16B68D062779C21E0097CE5E /* MovieSearchStub.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16AA9F4927632AD8008A4E02 /* DownloadOperation.swift in Sources */,
+				16B68D082779C3180097CE5E /* StubClient.swift in Sources */,
 				16AA9F5127632C8A008A4E02 /* SearchAPIInteractor.swift in Sources */,
 				16AA9F562763304F008A4E02 /* MovieCell.swift in Sources */,
 				16AA9F4A27632AD8008A4E02 /* AppOperation.swift in Sources */,

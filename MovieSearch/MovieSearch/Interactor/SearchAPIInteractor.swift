@@ -21,10 +21,12 @@ class SearchAPIInteractor {
     var movieData: [MovieData] = []
     
     var isInprogress: Bool = false
+    var isStubbed = false
     
     init() {
         let config = NetworkConfig(path: "/search/movie")
-        self.apiClient = APIClient(networkConfig: config)
+        let client = APIClient(networkConfig: config)
+        self.apiClient = isStubbed ? StubClient() : client
     }
 }
 
