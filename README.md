@@ -6,3 +6,7 @@ What is in Movie Search app:
 - Handle thread safety
 
 Demo video is as below
+
+
+https://user-images.githubusercontent.com/2247603/147458327-67cb141e-aea0-4acb-bc7f-b706c545992e.mov
+
