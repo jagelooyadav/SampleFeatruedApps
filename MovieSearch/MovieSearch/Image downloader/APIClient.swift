@@ -72,9 +72,9 @@ extension NetworkConfigProtocol {
 
 struct NetworkConfig: NetworkConfigProtocol {
     
-    let apiKey = "2a61185ef6a27f400fd92820ad9e8537"
+    let apiKey = "###API KEY###"
     var isQuery = true
-    var baseURL: String = "https://api.themoviedb.org/3"
+    var baseURL: String = "####### API base URL"
     var path: String?
     var method: String = "GET"
     

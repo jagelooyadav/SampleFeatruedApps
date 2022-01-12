@@ -21,7 +21,7 @@ class SearchAPIInteractor {
     var movieData: [MovieData] = []
     
     var isInprogress: Bool = false
-    var isStubbed = false
+    var isStubbed = true
     
     init() {
         let config = NetworkConfig(path: "/search/movie")
