@@ -24,7 +24,7 @@ extension APIClient: APIClientProtocol {
         let requestData = try? JSONEncoder().encode(request)
         let urlString: String
         if self.networkConfig.isQuery, let request = request as? String {
-            urlString = self.networkConfig.urlString + "&\(request)"
+            urlString = self.networkConfig.urlString + request
         } else {
             urlString = self.networkConfig.urlString
         }
@@ -38,20 +38,16 @@ extension APIClient: APIClientProtocol {
         }
         
         return try await withCheckedThrowingContinuation({ continuation in
-            URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
-                guard let httpsResponse = response as? HTTPURLResponse,
-                      httpsResponse.statusCode == 200,
-                      let data = data else {
-                          return continuation.resume(with: .failure(APIError.notReachable))
-                      }
-                
-                guard let model = try? JSONDecoder().decode(T.self, from: data) else {
-                    continuation.resume(returning: .failure(APIError.notReachable))
-                    return
-                }
-                continuation.resume(returning: .success(model))
-                
-            }).resume()
+            guard let data = try? Data.init(contentsOf: url, options: Data.ReadingOptions.alwaysMapped) else {
+                return
+            }
+            print("response === \(String(data: data, encoding: .utf8))")
+            
+            guard let model = try? JSONDecoder().decode(T.self, from: data) else {
+                continuation.resume(returning: .failure(APIError.notReachable))
+                return
+            }
+            continuation.resume(returning: .success(model))
         })
     }
 }
@@ -66,15 +62,15 @@ protocol NetworkConfigProtocol {
 
 extension NetworkConfigProtocol {
     var urlString: String {
-        return baseURL + ((path ?? "") + "?api_key=\(self.apiKey)")
+        return baseURL + (path ?? "")
     }
 }
 
 struct NetworkConfig: NetworkConfigProtocol {
     
-    let apiKey = "###API KEY###"
+    let apiKey = "somekey"
     var isQuery = true
-    var baseURL: String = "####### API base URL"
+    var baseURL: String = "http://www.nactem.ac.uk/software/acromine/dictionary.py?"
     var path: String?
     var method: String = "GET"
     

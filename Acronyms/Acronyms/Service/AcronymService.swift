@@ -19,7 +19,7 @@ class AcronymService {
     func fetchData(query: String) async {
         guard !isInprogress else { return }
         isInprogress = true
-        typealias SResult = Result<SearchResult, Error>
+        typealias SResult = Result<[AcronymServiceResponse], Error>
         let result: SResult? = try? await apiClient?.call(request: query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed))
         self.isInprogress = false
         guard let searchResult = result else {
@@ -28,28 +28,10 @@ class AcronymService {
         }
         switch searchResult {
             case .success(let data):
-                self.response = nil
+                self.response = data.first
             case .failure(let error):
                 print(error)
                 break
-        }
-    }
-}
-
-struct SearchResult: Decodable {
-    let results: [Result]
-    let acronym: String
-    
-    enum CodingKeys: String, CodingKey {
-        case results = "lfs"
-        case acronym = "sf"
-    }
-    
-    struct Result: Decodable {
-        let longForm: String
-        
-        enum CodingKeys: String, CodingKey {
-            case longForm = "lf"
         }
     }
 }
