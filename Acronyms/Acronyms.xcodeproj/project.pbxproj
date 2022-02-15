@@ -20,6 +20,7 @@
 		1602B96427BC10E000C16598 /* AcronymService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1602B96327BC10E000C16598 /* AcronymService.swift */; };
 		1602B96727BC15BC00C16598 /* AcronymServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1602B96627BC15BC00C16598 /* AcronymServiceResponse.swift */; };
 		1602B96C27BC1BBC00C16598 /* AcronymsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1602B96B27BC1BBC00C16598 /* AcronymsViewModel.swift */; };
+		1602B97027BC576A00C16598 /* AcronymsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1602B96F27BC576A00C16598 /* AcronymsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		1602B96327BC10E000C16598 /* AcronymService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcronymService.swift; sourceTree = "<group>"; };
 		1602B96627BC15BC00C16598 /* AcronymServiceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcronymServiceResponse.swift; sourceTree = "<group>"; };
 		1602B96B27BC1BBC00C16598 /* AcronymsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcronymsViewModel.swift; sourceTree = "<group>"; };
+		1602B96F27BC576A00C16598 /* AcronymsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcronymsViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				1602B94827BC0E6000C16598 /* AcronymsTests.swift */,
+				1602B96F27BC576A00C16598 /* AcronymsViewModelTests.swift */,
 			);
 			path = AcronymsTests;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1602B97027BC576A00C16598 /* AcronymsViewModelTests.swift in Sources */,
 				1602B94927BC0E6000C16598 /* AcronymsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

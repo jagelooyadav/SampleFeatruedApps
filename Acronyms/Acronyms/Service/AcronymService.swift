@@ -7,10 +7,18 @@
 
 import Foundation
 
-class AcronymService {
+/// Abstraction for service class
+protocol AcronymDataProvider {
+    var response: AcronymServiceResponse? { get set }
+    var error: Error? { get set }
+    func fetchData(query: String) async
+}
+
+class AcronymService: AcronymDataProvider {
     var apiClient: APIClientProtocol?
     var isInprogress: Bool = false
     var response: AcronymServiceResponse?
+    var error: Error?
     
     init(apiClient: APIClientProtocol = APIClient()) {
         self.apiClient = apiClient
@@ -30,7 +38,7 @@ class AcronymService {
             case .success(let data):
                 self.response = data.first
             case .failure(let error):
-                print(error)
+                self.error = error
                 break
         }
     }

@@ -8,19 +8,9 @@
 import Foundation
 import UIKit
 
-protocol BindableObject: AnyObject {
-    func reloadData()
-}
-
-protocol AcronymsViewModelProtocol {
-    var acronyms: [String] { get }
-    var searchText: String? { get set }
-    func bind(withObject objet: BindableObject?)
-}
-
-class AcronymsViewModel: AcronymsViewModelProtocol {
+class AcronymsViewModel: AcronymsDesignable {
     private(set) var acronyms: [String] = []
-    private let service: AcronymService
+    private let service: AcronymDataProvider
     
     var searchText: String? {
         didSet {
@@ -28,7 +18,11 @@ class AcronymsViewModel: AcronymsViewModelProtocol {
         }
     }
     
-    init(service: AcronymService = AcronymService()) {
+    var screenTitle: String { "Acronyms" }
+    
+    var searchPlacehoder: String { "Type to search" }
+    
+    init(service: AcronymDataProvider = AcronymService()) {
         self.service = service
     }
     
@@ -36,12 +30,17 @@ class AcronymsViewModel: AcronymsViewModelProtocol {
         guard let text = self.searchText, text.count > 1 else { return }
         Task {
             await service.fetchData(query: "sf=\(text)")
-            self.acronyms = service.response?.results.compactMap {$0.longForm } ?? []
-            DispatchQueue.main.async {
-                self.bindingObject?.reloadData()
+            if let acronyms =  service.response?.results.compactMap({ $0.longForm }) {
+                self.acronyms = acronyms
+                DispatchQueue.main.async {
+                    self.bindingObject?.reloadData()
+                }
+            } else {
+                self.bindingObject?.showDisplayError(message: "No response from api")
             }
         }
     }
+    
     weak var bindingObject: BindableObject?
     
     func bind(withObject objet: BindableObject?) {

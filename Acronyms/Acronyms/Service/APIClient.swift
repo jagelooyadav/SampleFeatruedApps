@@ -41,8 +41,6 @@ extension APIClient: APIClientProtocol {
             guard let data = try? Data.init(contentsOf: url, options: Data.ReadingOptions.alwaysMapped) else {
                 return
             }
-            print("response === \(String(data: data, encoding: .utf8))")
-            
             guard let model = try? JSONDecoder().decode(T.self, from: data) else {
                 continuation.resume(returning: .failure(APIError.notReachable))
                 return
@@ -67,7 +65,6 @@ extension NetworkConfigProtocol {
 }
 
 struct NetworkConfig: NetworkConfigProtocol {
-    
     let apiKey = "somekey"
     var isQuery = true
     var baseURL: String = "http://www.nactem.ac.uk/software/acromine/dictionary.py?"
